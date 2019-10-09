@@ -1,48 +1,55 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "bit.h"
-#include "locale.h"
-int dec2bin(int num)
-{
-    int bin = 0, k = 1;
-
-    while (num)
-    {
-        bin += (num % 2) * k;
-        k *= 10;
-        num /= 2;
-    }
-
-    return bin;
-}
 int main()
 {
-    /*генерируем множество случайных десятичных чисел в массиве*/
     int i, n, dim, *dec;
-    setlocale(0, "rus");                          //русская озвучка
+    setlocale(0, "rus");
 
-    printf("Введите размер массива: ");
+    printf("Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°: ");
     scanf("%d", &n);
-    printf("Введите размерность массива: ");
+    printf("Р’РІРµРґРёС‚Рµ РґРёР°РїР°Р·РѕРЅ СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»: ");
     scanf("%i", &dim);
 
-    srand(time(0));                             //Функция srand() позволяет запускать программу несколько раз с различными последователь­ностями псевдослучайных чисел.
+    srand(time(0));
     dec = malloc(n * sizeof(int));
-    printf("Сгенерированный массив:\n");
+    printf("РЎРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Р№ РјР°СЃСЃРёРІ:\n");
     for (i = 0; i < n; i++) {
-        dec[i] = rand() % dim;                  // диапазон случайных чисед от 0 до 100
+        dec[i] = rand() % dim;
         printf("%d ", dec[i]);
     }
     putchar('\n');
 
+     int k = 0;
+     while (dim)
+     {
+         dim=dim/2;
+         k++;
+     }
 
-    int *bin;
-    bin =  malloc(n*sizeof(int)*12);
-    for (int c_1 = 0; c_1 < n; c_1++)
+   //  printf("%i", k);
+     char * mass;
+     mass = malloc(n*k*sizeof(char));
+
+    int a = 0;
+    for (int i = 0; i < n; i++)
     {
-     bin[c_1] = dec2bin(dec[c_1]);
-     printf("%i  ", bin[c_1]);
+        for (int j = k*(i+1)-1; j >= k*i ; j--)
+        {
+          a = dec[i]%2;
+          dec[i] = dec[i] / 2;
+          mass[j] = a ==1 ? '1' : '0';
+
+        }
     }
+    for (int i = 0; i < n*k; i++)
+    {
+        if (i%k == 0 && i !=0)
+           printf(" ");
+        printf("%c",mass[i]);
+    }
+
+
+
     free(dec);
     system("pause");
     return 0;
